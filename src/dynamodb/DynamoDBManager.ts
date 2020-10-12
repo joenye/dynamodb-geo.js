@@ -78,8 +78,9 @@ export class DynamoDBManager {
         ExclusiveStartKey: lastEvaluatedKey
       };
 
-      delete queryInput.hashKeyEq;
-      const queryOutput = await this.config.dynamoDBClient.query({ ...defaults, ...queryInput }).promise();
+      const queryInputCopy = { ...queryInput };
+      delete queryInputCopy.hashKeyEq;
+      const queryOutput = await this.config.dynamoDBClient.query({ ...defaults, ...queryInputCopy }).promise();
       queryOutputs.push(queryOutput);
       if (queryOutput.LastEvaluatedKey) {
         return nextQuery(queryOutput.LastEvaluatedKey);
