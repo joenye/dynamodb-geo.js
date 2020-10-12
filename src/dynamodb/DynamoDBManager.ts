@@ -58,7 +58,7 @@ export class DynamoDBManager {
 
       keyConditions[this.config.hashKeyAttributeName] = {
         ComparisonOperator: "EQ",
-        AttributeValueList: queryInput.hashKeyEq ? [{ S: queryInput.hashKeyEq }] : [{ N: hashKey.toString(10) }],
+        AttributeValueList: queryInput?.hashKeyEq ? [{ S: queryInput.hashKeyEq }] : [{ N: hashKey.toString(10) }],
       };
 
       const minRange: DynamoDB.AttributeValue = { N: range.rangeMin.toString(10) };

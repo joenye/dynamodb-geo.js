@@ -1,6 +1,6 @@
 {
   "name": "@joenye/dynamodb-geo",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Fork containing bugfixes of the unmaintained dynamodb-geo, which is a Javascript port of awslabs/dynamodb-geo, for dynamodb geospatial querying",
   "scripts": {
     "prepublish": "tsc -d",
