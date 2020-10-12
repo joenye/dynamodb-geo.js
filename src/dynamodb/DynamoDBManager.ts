@@ -50,7 +50,7 @@ export class DynamoDBManager {
    *
    * @return The query result.
    */
-  public async queryGeohash(queryInput: DynamoDB.QueryInput | undefined, hashKey: Long, range: GeohashRange): Promise<DynamoDB.QueryOutput[]> {
+  public async queryGeohash(queryInput: any | undefined, hashKey: Long, range: GeohashRange): Promise<DynamoDB.QueryOutput[]> {
     const queryOutputs: DynamoDB.QueryOutput[] = [];
 
     const nextQuery = async (lastEvaluatedKey: DynamoDB.Key = null) => {
@@ -58,7 +58,7 @@ export class DynamoDBManager {
 
       keyConditions[this.config.hashKeyAttributeName] = {
         ComparisonOperator: "EQ",
-        AttributeValueList: [{ N: hashKey.toString(10) }]
+        AttributeValueList: queryInput.hashKeyEq ? [{ S: queryInput.hashKeyEq }] : [{ N: hashKey.toString(10) }],
       };
 
       const minRange: DynamoDB.AttributeValue = { N: range.rangeMin.toString(10) };
@@ -78,6 +78,7 @@ export class DynamoDBManager {
         ExclusiveStartKey: lastEvaluatedKey
       };
 
+      delete queryInput.hashKeyEq;
       const queryOutput = await this.config.dynamoDBClient.query({ ...defaults, ...queryInput }).promise();
       queryOutputs.push(queryOutput);
       if (queryOutput.LastEvaluatedKey) {
