@@ -1,7 +1,7 @@
 {
-  "name": "dynamodb-geo",
-  "version": "0.4.0",
-  "description": "A javascript port of awslabs/dynamodb-geo, for dynamodb geospatial querying",
+  "name": "@joenye/dynamodb-geo",
+  "version": "0.4.1",
+  "description": "Fork containing bugfixes of the unmaintained dynamodb-geo, which is a Javascript port of awslabs/dynamodb-geo, for dynamodb geospatial querying",
   "scripts": {
     "prepublish": "tsc -d",
     "clean": "rm -rf dist",
@@ -10,8 +10,11 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "repository": "rh389/dynamodb-geo.js",
-  "author": "Rob Hogan <github@rhogan.net>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joenye/dynamodb-geo.js.git"
+  },
+  "author": "Joe Nye <prokonye@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "@types/decimal.js": "^0.0.32",
@@ -30,5 +33,9 @@
   },
   "peerDependencies": {
     "aws-sdk": "^2.771.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/joenye/dynamodb-geo.js/issues"
+  },
+  "homepage": "https://github.com/joenye/dynamodb-geo.js#readme"
 }
