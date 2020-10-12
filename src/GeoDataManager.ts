@@ -33,7 +33,7 @@ import {
 } from "./types";
 import { S2Manager } from "./s2/S2Manager";
 import { S2Util } from "./s2/S2Util";
-import { S2LatLng, S2LatLngRect } from "nodes2ts";
+import { S2LatLng, S2LatLngRect, S2Cell } from "nodes2ts";
 import { Covering } from "./model/Covering";
 
 /**
@@ -196,6 +196,9 @@ export class GeoDataManager {
    * @return Result of rectangle query request.
    */
   public async queryRectangle(queryRectangleInput: QueryRectangleInput): Promise<DynamoDB.ItemList> {
+    // Patch as described here: https://github.com/rh389/dynamodb-geo.js/issues/8#issuecomment-379568003
+    require('nodes2ts').S2RegionCoverer.FACE_CELLS = [0, 1, 2, 3, 4, 5].map(face => S2Cell.fromFacePosLevel(face, 0, 0));
+
     const latLngRect: S2LatLngRect = S2Util.latLngRectFromQueryRectangleInput(queryRectangleInput);
 
     const covering = new Covering(new this.config.S2RegionCoverer().getCoveringCells(latLngRect));
@@ -227,6 +230,9 @@ export class GeoDataManager {
    * @return Result of radius query request.
    * */
   public async queryRadius(queryRadiusInput: QueryRadiusInput): Promise<DynamoDB.ItemList> {
+    // Patch as described here: https://github.com/rh389/dynamodb-geo.js/issues/8#issuecomment-379568003
+    require('nodes2ts').S2RegionCoverer.FACE_CELLS = [0, 1, 2, 3, 4, 5].map(face => S2Cell.fromFacePosLevel(face, 0, 0));
+
     const latLngRect: S2LatLngRect = S2Util.getBoundingLatLngRectFromQueryRadiusInput(queryRadiusInput);
 
     const covering = new Covering(new this.config.S2RegionCoverer().getCoveringCells(latLngRect));
